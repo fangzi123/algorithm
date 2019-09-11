@@ -36,7 +36,7 @@ public class Feibonaqie {
             return 1;
         }
         //一维数组动态规划表
-        long[] dp = new long[n+1];
+        long[] dp = new long[ +1];
         dp[0] = 0;
         dp[1] = 1;
         for (int i = 2; i <= n; i++) {
