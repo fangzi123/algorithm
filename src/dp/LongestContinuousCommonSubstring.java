@@ -23,12 +23,17 @@ public class LongestContinuousCommonSubstring {
      * @return
      */
     public static String lccs(String s1,String s2){
-        int[][] dp = new int[s1.length()+1][s2.length()+1];
-        //1.构造dp初始值
-
         int max = 0;
         int maxI = 0;
-        //2.构造dp[i][j]
+        int[][] dp = new int[s1.length()+1][s2.length()+1];
+        //1.构造dp初始值
+        for (int i = 0; i <s1.length()+1 ; i++) {
+            dp[i][0] = 0;
+        }
+        for (int j = 0; j <s2.length()+1 ; j++) {
+            dp[0][j] = 0;
+        }
+        //2.构造 dp[i][j]
         for (int i = 0; i <s1.length() ; i++) {
             for (int j = 0; j <s2.length() ; j++) {
                 if (s1.charAt(i)==s2.charAt(j)) {
@@ -39,15 +44,18 @@ public class LongestContinuousCommonSubstring {
                 //更新dp最大值
                 if (max < dp[i + 1][j + 1]) {
                     max = dp[i + 1][j + 1];
-                    maxI = i + 1;
+                    maxI = i+1;
                 }
             }
         }
-
-        return null;
+        System.out.println("max:"+max);
+        System.out.println("maxI:"+maxI);
+        String rlt = s1.substring(maxI - max, maxI);
+        System.out.println("rlt:"+rlt);
+        return rlt;
     }
 
     public static void main(String[] args) {
-
+        lccs("bcd","abcd");
     }
 }
