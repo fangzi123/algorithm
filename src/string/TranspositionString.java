@@ -1,7 +1,5 @@
 package string;
 
-import java.util.Arrays;
-
 /**
  * 换位字符串 是指组成字符相同，但位置不同 例如：aaaabc 与 abcaaa
  *
