@@ -1,7 +1,5 @@
 package geek;
 
-import org.w3c.dom.Node;
-
 import java.util.Scanner;
 
 /**
@@ -21,7 +19,7 @@ import java.util.Scanner;
  *              2.2链表未满
  *                  插入元素到链表头部
  */
-public class LinkedLRU {
+public class LinkedLRU<T> {
     private int cap;
     private int length;
     private Node head;//借助哨兵 头结点，无data，仅有next指针
@@ -45,7 +43,7 @@ public class LinkedLRU {
      *              2.2链表未满
      *                  插入元素到链表头部
      */
-    public void add(String key){
+    public void add(T key){
         //查找元素前置节点,如果不存在返回null
         Node preNode = findPreNode(key);
         //元素在链表里
@@ -82,7 +80,7 @@ public class LinkedLRU {
         length--;
     }
 
-    private void insertNodeAtBegin(String key) {
+    private void insertNodeAtBegin(T key) {
         Node newNode = new Node(key);
         newNode.setNext(head.getNext());
         head.setNext(newNode);
@@ -96,7 +94,7 @@ public class LinkedLRU {
         length--;
     }
 
-    private Node findPreNode(String key) {
+    private Node findPreNode(T key) {
         Node temp = head;
         while (temp.getNext()!=null){
             if (key.equals(temp.getNext().getData())) {
@@ -113,11 +111,11 @@ public class LinkedLRU {
         return this.length;
     }
 
-    class Node{
-        private String data;
+    class Node<T>{
+        private T data;
         private Node next;
 
-        public Node(String data) {
+        public Node(T data) {
             this.data = data;
         }
         public Node() {
@@ -126,7 +124,7 @@ public class LinkedLRU {
             return data;
         }
 
-        public void setData(String data) {
+        public void setData(T data) {
             this.data = data;
         }
 
