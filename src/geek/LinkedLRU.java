@@ -1,14 +1,19 @@
 package geek;
 
+import org.w3c.dom.Node;
+
+import java.util.Scanner;
+
 /**
  * @author wangff
  * @date 2019/11/11 10:40
  *
  *      * 用单链表实现LRU缓存淘汰算法
  *      * 思路：单链表，链头代表最近访问，链尾代表最久访问
- *        0.链表为空时，直接创建链表，并添加此元素
- *        否则遍历链表
- *          1.key在链表里
+ *      借助哨兵 头结点，无data
+ *      node  : head node1 node2 node3 node4 ...
+ *      length:  0     1     2     3     4   ...
+ *          1.key在链表里(元素有前置节点)
  *              删除所在位置的元素，把key插入到链表头部
  *          2.key不在链表里
  *              2.1链表已满
@@ -18,54 +23,96 @@ package geek;
  */
 public class LinkedLRU {
     private int cap;
-    private Node head;
+    private int length;
+    private Node head;//借助哨兵 头结点，无data，仅有next指针
+
     public LinkedLRU(int cap) {
         this.cap = cap;
+        this.length = 0;
+        head = new Node();
     }
 
-    public void put(String key){
-        Node node = new Node(key);
-        Node temp = head;
-        if (temp == null) {//空结点，直接插入
-            head = node;
-        }else {
-            boolean flag = false;
-            //遍历链表 检查key是否在链表里,并找到此节点
-            while (temp!=null){
-                if(!temp.getData().equals(key)){
-                    temp = temp.getNext();
-                }else{
-                    flag = true;
-                    break;
-                }
-            }
-            //1.key在链表里
-            if (flag) {
-                // todo 删除所在位置的元素, 把key插入到链表头部
-                node.setNext(head);
+    /**
+     *      * 思路：单链表，链头代表最近访问，链尾代表最久访问
+     *      借助哨兵 头结点，无data
+     *      node  : head        node1 node2 node3 node4 ...
+     *      length:  0           1     2     3     4   ...
+     *          if  1.key在链表里 (等价于元素有前置节点)
+     *              删除当前元素(即前置节点的下一节点)，插入元素到链表头部
+     *          else 2.key不在链表里
+     *              2.1链表已满
+     *                  删除链尾元素，插入元素到链表头部
+     *              2.2链表未满
+     *                  插入元素到链表头部
+     */
+    public void add(String key){
+        //查找元素前置节点,如果不存在返回null
+        Node preNode = findPreNode(key);
+        //元素在链表里
+        if (preNode != null) {
+            //删除前置节点的下一个节点
+            removeCurrentNode(preNode);
+            //插入元素到链表头部
+            insertNodeAtBegin(key);
+        }else{ //元素不在链表里
+            if (length >=cap) {
+                //删除链尾元素
+                removeTailNode();
+                //插入元素到链表头部
+                insertNodeAtBegin(key);
             }else{
-                // 2.key不在链表里  2.2链表未满
-                if (this.getLength()== cap) {
-                    //2.1链表已满  todo 删除链尾元素，插入元素到链表头部
-                    node.setNext(head);
-                }else{
-                    //  2.2链表未满 插入元素到链表头部
-                    node.setNext(head);
-                }
+                //插入元素到链表头部
+                insertNodeAtBegin(key);
             }
-
         }
     }
+
+    private void removeTailNode() {
+        Node temp = head;
+        // 空链表直接返回
+        if (temp.getNext() == null) {
+            return;
+        }
+        //找出倒数第二个节点temp
+        while (temp.getNext().getNext()!=null){
+            temp = temp.getNext();
+        }
+        //删除末尾节点
+        temp.setNext(null);
+        length--;
+    }
+
+    private void insertNodeAtBegin(String key) {
+        Node newNode = new Node(key);
+        newNode.setNext(head.getNext());
+        head.setNext(newNode);
+        length++;
+    }
+
+    private void removeCurrentNode(Node preNode) {
+        Node currentNode = preNode.getNext();
+        preNode.setNext(currentNode.getNext());
+        currentNode = null;
+        length--;
+    }
+
+    private Node findPreNode(String key) {
+        Node temp = head;
+        while (temp.getNext()!=null){
+            if (key.equals(temp.getNext().getData())) {
+                return temp;
+            }
+            temp = temp.getNext();
+        }
+        return null;
+    }
+
+
     //获取链表长度
     public int getLength() {
-        int length = 0;
-        Node temp = head;
-        while (temp != null) {
-            temp = temp.next;
-            length++;
-        }
-        return length;
+        return this.length;
     }
+
     class Node{
         private String data;
         private Node next;
@@ -73,8 +120,9 @@ public class LinkedLRU {
         public Node(String data) {
             this.data = data;
         }
-
-        public String getData() {
+        public Node() {
+        }
+        public Object getData() {
             return data;
         }
 
@@ -89,5 +137,23 @@ public class LinkedLRU {
         public void setNext(Node next) {
             this.next = next;
         }
+    }
+
+    public static void main(String[] args) {
+        LinkedLRU list = new LinkedLRU(5);
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            list.add(sc.next());
+            list.printAll();
+        }
+    }
+
+    private void printAll() {
+        Node node = head.getNext();
+        while (node != null) {
+            System.out.print(node.getData() + ",");
+            node = node.getNext();
+        }
+        System.out.println();
     }
 }
