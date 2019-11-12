@@ -19,12 +19,12 @@ import java.util.Scanner;
  *              2.2链表未满
  *                  插入元素到链表头部
  */
-public class LinkedLRU<T> {
+public class LRUBaseLinkedList<T> {
     private int cap;
     private int length;
     private Node head;//借助哨兵 头结点，无data，仅有next指针
 
-    public LinkedLRU(int cap) {
+    public LRUBaseLinkedList(int cap) {
         this.cap = cap;
         this.length = 0;
         head = new Node();
@@ -138,7 +138,7 @@ public class LinkedLRU<T> {
     }
 
     public static void main(String[] args) {
-        LinkedLRU list = new LinkedLRU(5);
+        LRUBaseLinkedList list = new LRUBaseLinkedList(5);
         Scanner sc = new Scanner(System.in);
         while (true) {
             list.add(sc.next());
