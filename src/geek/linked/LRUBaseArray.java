@@ -1,4 +1,4 @@
-package geek;
+package geek.linked;
 
 import java.util.Scanner;
 
