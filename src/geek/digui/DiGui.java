@@ -54,6 +54,7 @@ public class DiGui {
         return ret;
     }
 
+
     public static void main(String[] args) {
         DiGui diGui = new DiGui();
         //int ret= diGui.taijie(100);

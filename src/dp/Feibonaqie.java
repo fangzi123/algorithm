@@ -36,7 +36,7 @@ public class Feibonaqie {
             return 1;
         }
         //一维数组动态规划表
-        long[] dp = new long[ +1];
+        long[] dp = new long[ n+1];
         dp[0] = 0;
         dp[1] = 1;
         for (int i = 2; i <= n; i++) {
@@ -57,15 +57,15 @@ public class Feibonaqie {
         if (n == 1) {
             return 1;
         }
-        int f0 = 0;
-        int f1 = 1;
-        int f2 = 0;
+        int prepre = 0;
+        int pre = 1;
+        int ret = 0;
         for (int i = 2; i <= n; i++) {
-            f2 = f1 + f0;
-            f0 = f1;
-            f1 = f2;
+            ret = pre + prepre;
+            prepre = pre;
+            pre = ret;
         }
-        return f2;
+        return pre;
     }
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
