@@ -53,4 +53,12 @@ public class DiGui {
         }
         return ret;
     }
+
+    public static void main(String[] args) {
+        DiGui diGui = new DiGui();
+        //int ret= diGui.taijie(100);
+        int ret1= diGui.taijie1(30);
+        //System.out.println(ret);
+        System.out.println(ret1);
+    }
 }
