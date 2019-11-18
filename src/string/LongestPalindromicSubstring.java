@@ -24,7 +24,13 @@ public class LongestPalindromicSubstring {
         boolean dp[][] = new boolean[str.length()][str.length()];
         for (int i = 0; i < str.length(); i++) {
             for (int j = 0; j < str.length(); j++) {
+                if (j -i==0) {
+                    dp[i][j] = true;
+                }else if (j -i== 1&&str.charAt(i)==str.charAt(j)) {
+                    dp[i][j] = true;
+                }else{
                     dp[i][j] = false;
+                }
             }
         }
         //2.递推获取dp[i][j]
@@ -32,11 +38,7 @@ public class LongestPalindromicSubstring {
         String res = str.substring(0,1);
         for (int i = str.length()-1; i >=0 ; i--) {
             for (int j = i; j <str.length() ; j++) {
-                if (j -i==0) {
-                    dp[i][j] = true;
-                }else if (j -i== 1&&str.charAt(i)==str.charAt(j)) {
-                    dp[i][j] = true;
-                }else if(str.charAt(i)==str.charAt(j)&&dp[i+1][j-1]){
+                if(str.charAt(i)==str.charAt(j)&&dp[i+1][j-1]){
                     dp[i][j] = true;
                 }
                 // update res
@@ -49,6 +51,6 @@ public class LongestPalindromicSubstring {
     }
 
     public static void main(String[] args) {
-        System.out.println(lps("abac"));
+        System.out.println(lps("abcde"));
     }
 }
