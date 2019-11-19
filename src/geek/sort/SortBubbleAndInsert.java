@@ -7,7 +7,7 @@ package geek.sort;
  * @author wangff
  * @date 2019/11/19 11:23
  */
-public class Sort {
+public class SortBubbleAndInsert {
     /**
      * 原理：N趟  每一趟 两两比较交换，直到最大值换到最后位置
      *  第一趟  两两比较交换，直到最大值换到最后位置  比较n-1次
