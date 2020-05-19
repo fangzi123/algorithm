@@ -15,16 +15,16 @@ public class FindByErFen {
      * 相等则返回midIndex
      */
     public int find(int[] a, int target) {
-        int left = 0;
-        int right = a.length - 1;
-        while (left <= right) {
-            int midIndex = (left + right) / 2;
+        int low = 0;
+        int high = a.length - 1;
+        while (low <= high) {
+            int midIndex = (low + high) / 2;
             if (target == a[midIndex]) {
                 return midIndex;
             } else if (target > a[midIndex]) {
-                left = midIndex + 1;
+                low = midIndex + 1;
             } else if (target < a[midIndex]) {
-                right = midIndex - 1;
+                high = midIndex - 1;
             }
         }
         return -1;
